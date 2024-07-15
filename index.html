@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Encryption & Decryption</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="wrapper">
+  <div class="title-text">
+    <div class="title login">EnDecoder</div>
+    <div class="title signup">Decode</div>
+  </div>
+  <div class="form-container">
+    <div class="slide-controls">
+      <input type="radio" name="slide" id="login" checked>
+      <input type="radio" name="slide" id="signup">
+      <label for="login" class="slide login">Encode</label>
+      <label for="signup" class="slide signup">Decode</label>
+      <div class="slider-tab"></div>
+    </div>
+    <div class="form-inner">
+      <form class="login">
+        <div class="field">
+          <input type="text" name="text" placeholder="Enter Text" required>
+        </div>
+        <div class="field">
+          <select name="method" required>
+            <option value="">Select Type</option>
+            <option value="caesar">Caesar</option>
+            <option value="aes">AES</option>
+            <option value="rsa">RSA</option>
+          </select>
+        </div>
+        <div class="field" id="key-field" style="display:none;">
+          <input type="text" name="key" placeholder="Enter Key">
+        </div>
+        <div class="field" id="public-key-field" style="display:none;">
+          <textarea name="public_key" placeholder="Enter SSH Public Key"></textarea>
+        </div>
+        <div class="field">
+          <input type="text" name="result" placeholder="Result" readonly>
+        </div>
+        <div class="field btn">
+          <div class="btn-layer"></div>
+          <input type="submit" value="Encode it!" onclick="encodeText(); return false;">
+        </div>
+      </form>
+      <form class="signup">
+        <div class="field">
+          <input type="text" name="text" placeholder="Enter Text" required>
+        </div>
+        <div class="field">
+          <select name="method" required>
+            <option value="">Select Type</option>
+            <option value="caesar">Caesar</option>
+            <option value="aes">AES</option>
+            <option value="rsa">RSA</option>
+          </select>
+        </div>
+        <div class="field" id="key-field-decode" style="display:none;">
+          <input type="text" name="key" placeholder="Enter Key">
+        </div>
+        <div class="field" id="private-key-field" style="display:none;">
+          <textarea name="private_key" placeholder="Enter Private Key"></textarea>
+        </div>
+        <div class="field">
+          <input type="text" name="result" placeholder="Result" readonly>
+        </div>
+        <div class="field btn">
+          <div class="btn-layer"></div>
+          <input type="submit" value="Decode it!" onclick="decodeText(); return false;">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script src="{{ url_for('static', filename='ht.js') }}"></script>
+<script>
+  document.querySelector("form.login select[name='method']").addEventListener("change", function() {
+    var keyField = document.getElementById("key-field");
+    var publicKeyField = document.getElementById("public-key-field");
+    if (this.value === "aes") {
+      keyField.style.display = "block";
+      publicKeyField.style.display = "none";
+    } else if (this.value === "rsa") {
+      keyField.style.display = "none";
+      publicKeyField.style.display = "block";
+    } else {
+      keyField.style.display = "none";
+      publicKeyField.style.display = "none";
+    }
+  });
+
+  document.querySelector("form.signup select[name='method']").addEventListener("change", function() {
+    var keyFieldDecode = document.getElementById("key-field-decode");
+    var privateKeyField = document.getElementById("private-key-field");
+    if (this.value === "aes") {
+      keyFieldDecode.style.display = "block";
+      privateKeyField.style.display = "none";
+    } else if (this.value === "rsa") {
+      keyFieldDecode.style.display = "none";
+      privateKeyField.style.display = "block";
+    } else {
+      keyFieldDecode.style.display = "none";
+      privateKeyField.style.display = "none";
+    }
+  });
+</script>
+</body>
+</html>
